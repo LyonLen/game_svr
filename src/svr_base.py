@@ -14,17 +14,17 @@ class SvrBase(object):
     def __init__(self, instance_id=0, svr_name="base"):
         self.instance_id = instance_id
         self.svr_name = svr_name
-        self._stopping = False
         self.loop = asyncio.new_event_loop()
+        self._stopping = False
         self.on_init()
 
     @final
     def start(self):
         asyncio.set_event_loop(self.loop)
-        self.loop.call_later(_BASE_TIMER_SECONDS, self.timer_callback)
         self.loop.add_signal_handler(signal.SIGTERM, self.stop)
         self.loop.add_signal_handler(signal.SIGUSR1, self.stop)
         self.loop.add_signal_handler(signal.SIGUSR2, self.reload)
+        self.loop.call_later(_BASE_TIMER_SECONDS, self.timer_callback)
         self.on_start()
         # 潜规则，通信模块虽已启动，因为还未await出让控制权，所以业务任务还未跑
         # 所以后加载配置表，这里简单认为不会有问题

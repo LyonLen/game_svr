@@ -14,21 +14,19 @@ stream_handler.setFormatter(
 logger.addHandler(stream_handler)
 
 
-def init_logger(svr_name, log_path, log_level=logging.INFO, instance_id=None):
+def init_logger(instance_name, log_path, log_level=logging.INFO):
     if not os.path.exists(log_path):
         os.makedirs(log_path, exist_ok=True)
 
     global logger
-    logger = logging.getLogger("svr_name")
+    logger = logging.getLogger(instance_name)
     logger.setLevel(log_level)
 
-    if instance_id is None:
-        instance_id = os.getpid()
-    file_handler = logging.handlers.TimedRotatingFileHandler(f"{log_path}/{svr_name}_{instance_id}.log", 'H', 1, 0)
+    file_handler = logging.handlers.TimedRotatingFileHandler(f"{log_path}/{instance_name}.log", 'H', 1, 0)
     file_handler.suffix = "%Y%m%d%H"
     file_handler.setFormatter(
         logging.Formatter(
-            f"%(asctime)s.%(msecs)d|pid(%(process)d)|{svr_name}_{instance_id}|%(threadName)s|%(filename)s:%(lineno)d|%(levelname)s|%(message)s",
+            f"%(asctime)s.%(msecs)d|pid(%(process)d)|{instance_name}|%(threadName)s|%(filename)s:%(lineno)d|%(levelname)s|%(message)s",
             "%Y-%m-%d %H:%M:%S"
         )
     )
