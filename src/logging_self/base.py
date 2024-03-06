@@ -2,16 +2,7 @@ import logging
 import os
 from logging.handlers import TimedRotatingFileHandler
 
-logger = logging.getLogger("base")
-logger.setLevel(logging.DEBUG)
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(
-    logging.Formatter(
-        "%(asctime)s.%(msecs)d|pid(%(process)d)|%(threadName)s|svr_not_defined|%(filename)s:%(lineno)d|%(levelname)s|%(message)s",
-        "%Y-%m-%d %H:%M:%S"
-    )
-)
-logger.addHandler(stream_handler)
+logger = None
 
 
 def init_logger(instance_name, log_path, log_level=logging.INFO):
@@ -31,5 +22,3 @@ def init_logger(instance_name, log_path, log_level=logging.INFO):
         )
     )
     logger.addHandler(file_handler)
-    global stream_handler
-    logger.removeHandler(stream_handler)

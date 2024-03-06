@@ -3,8 +3,6 @@ import signal
 import time
 from typing import final
 
-from logging_self.base import logger
-
 _BASE_TIMER_SECONDS = 1.0
 
 
@@ -39,17 +37,20 @@ class SvrBase(object):
         while self.loop.is_closed():
             self.loop.close()
         self.on_stop()
+        from src.logging_self.base import logger
         logger.info(f"svr {self.get_instance_name()} stop cost {int(time.time() * 1000) - start_ms} ms")
 
     @final
     def reload(self):
         start_ms = int(time.time() * 1000)
         self.on_reload()
+        from src.logging_self.base import logger
         logger.info(f"svr {self.get_instance_name()} reload cost {int(time.time() * 1000) - start_ms} ms")
 
     @final
     def timer_callback(self):
-        logger.info(f"{self.get_instance_name()} timer %.1f seconds tick", _BASE_TIMER_SECONDS)
+        # from src.logging_self.base import logger
+        # logger.info(f"{self.get_instance_name()} timer %.1f seconds tick", _BASE_TIMER_SECONDS)
         if self._stopping:
             return
         self.on_tick()
