@@ -11,7 +11,8 @@ from src.svr_base import SvrBase
 
 class ConnSvr(SvrBase):
     def on_start(self):
-        init_logger(self.get_instance_name(), "./logs/conn_svr/", log_level=logging.DEBUG)
+        global logger
+        logger = init_logger(self.get_instance_name(), "./logs/conn_svr/", log_level=logging.DEBUG)
 
         # TODO 数据库加载，有些标志是放在redis，要来判断版本号，开服状态
 
@@ -31,18 +32,15 @@ class ConnSvr(SvrBase):
         self.loop.create_task(run_web())
 
     def on_stop(self):
-        from src.logging_self.base import logger
         logger.info(f"{self.get_instance_name()} stopped")
 
 
 class ConnMsgHandler(WebSocketHandler):
 
     async def open(self):
-        from src.logging_self.base import logger
         logger.debug("ws connection opened")
 
     async def on_message(self, message):
-        from src.logging_self.base import logger
         logger.debug(f"ws connection got one msg: {message}")
         resp_bytes = await self._test_run_transaction(message)
         try:
@@ -51,11 +49,9 @@ class ConnMsgHandler(WebSocketHandler):
             logger.warning("ws connection closed accidentally")
 
     def on_close(self):
-        from src.logging_self.base import logger
         logger.debug("ws connection closed")
 
     async def _test_run_transaction(self, message: bytes) -> bytes:
-        from src.logging_self.base import logger
         logger.debug(f"ws connection _test_run_transaction with {message}")
         return b'suss'
 

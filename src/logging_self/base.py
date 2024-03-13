@@ -22,3 +22,4 @@ def init_logger(instance_name, log_path, log_level=logging.INFO):
         )
     )
     logger.addHandler(file_handler)
+    return logger
