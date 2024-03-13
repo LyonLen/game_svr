@@ -10,6 +10,10 @@ from src.svr_base import SvrBase
 
 
 class ConnSvr(SvrBase):
+
+    def on_init(self):
+        self.web_svr_event = asyncio.Event()
+
     def on_start(self):
         global logger
         logger = init_logger(self.get_instance_name(), "./logs/conn_svr/", log_level=logging.DEBUG)
@@ -27,11 +31,12 @@ class ConnSvr(SvrBase):
                 )
             )
             server.listen(8888)
-            await asyncio.Event().wait()
+            await self.web_svr_event.wait()
 
         self.loop.create_task(run_web())
 
     def on_stop(self):
+        self.web_svr_event.set()
         logger.info(f"{self.get_instance_name()} stopped")
 
 

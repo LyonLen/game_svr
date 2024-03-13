@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     async def conn() -> None:
         ws = await asyncio.ensure_future(websocket_connect("ws://127.0.0.1:8888/trans"))
-        for i in range(100):
+        for i in range(10000):
             asyncio.ensure_future(ws.write_message(b"hello"))
             print("send finished")
             msg = await ws.read_message()
