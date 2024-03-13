@@ -1,7 +1,12 @@
 import asyncio
 import logging
+import os
+import socket
 
+import tornado
 from tornado.httpserver import HTTPServer
+from tornado.netutil import bind_sockets
+from tornado.process import task_id
 from tornado.web import Application
 from tornado.websocket import WebSocketHandler, WebSocketClosedError
 
@@ -13,6 +18,7 @@ class ConnSvr(SvrBase):
 
     def on_init(self):
         self.web_svr_event = asyncio.Event()
+        self.web_svr = None
 
     def on_start(self):
         global logger
@@ -22,18 +28,23 @@ class ConnSvr(SvrBase):
 
         # TODO 配置加载，一般conn_svr只有加载那种服务器列表、黑名单、白名单
 
-        async def run_web():
-            server = HTTPServer(
+        tornado.process.fork_processes(2)
+
+        async def post_fork_main():
+            sockets = bind_sockets(8888, reuse_port=True)
+            self.web_svr = HTTPServer(
                 Application(
                     [("/trans", ConnMsgHandler)],
                     websocket_ping_interval=50,  # 每50秒，向客户端发送一次ping包
                     websocket_ping_timeout=180  # 4次服务器ping不回pong，则主动断开长链接
                 )
             )
-            server.listen(8888)
+            self.web_svr.add_sockets(sockets)
             await self.web_svr_event.wait()
+            for sock in sockets:
+                sock.close()
 
-        self.loop.create_task(run_web())
+        self.loop.create_task(post_fork_main())
 
     def on_stop(self):
         self.web_svr_event.set()
