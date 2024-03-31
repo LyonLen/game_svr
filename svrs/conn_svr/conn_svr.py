@@ -1,7 +1,5 @@
 import asyncio
 import logging
-import os
-import socket
 
 import tornado
 from tornado.httpserver import HTTPServer
@@ -41,8 +39,6 @@ class ConnSvr(SvrBase):
             )
             self.web_svr.add_sockets(sockets)
             await self.web_svr_event.wait()
-            for sock in sockets:
-                sock.close()
 
         self.loop.create_task(post_fork_main())
 
