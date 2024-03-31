@@ -1,3 +1,50 @@
+# 环境
+
+## 硬件
+
+8核 16G
+
+### 操作系统--开发环境wsl
+
+```shell
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=20.04
+DISTRIB_CODENAME=focal
+DISTRIB_DESCRIPTION="Ubuntu 20.04.6 LTS"
+```
+
+### 软件
+
+```shell
+git
+conda 23.7.4
+```
+
+# 安装
+
+```shell
+# 拉取仓库
+git clone https://github.com/LyonLen/game_svr.git
+
+# 进入环境创建工具目录
+cd tools/publish/conda_env/;
+
+# 创建环境
+./create_conda_env.sh dev
+```
+
+# 运行
+
+```shell
+# 启动conn_svr
+nohup python -m svrs.conn_svr.conn_svr 8888 127.0.0.1 1>&2 >/dev/null &
+# 启动zone_svr
+nohup python -m svrs.zone_svr.zone_svr 9999 127.0.0.1 1>&2 > /dev/null &
+# 运行测试脚本
+cd tests;
+python test_web_socket.py
+```
+
 # Client -> ConnSvr -> ZoneSvr 空架子性能测
 
 ## LOG: DEBUG
