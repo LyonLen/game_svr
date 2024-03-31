@@ -18,7 +18,6 @@ class ConnSvr(SvrBase):
 
     def on_start(self):
         global logger
-        print(dict(self.conf))
         logger = init_logger(self.get_instance_name(), **dict(self.conf["LOG"]))
 
         # TODO 数据库加载，有些标志是放在redis，要来判断版本号，开服状态
@@ -75,5 +74,4 @@ class ConnMsgHandler(WebSocketHandler):
 
 
 if __name__ == "__main__":
-    print(sys.argv)
     ConnSvr(svr_name="conn").start()

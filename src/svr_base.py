@@ -19,7 +19,6 @@ class SvrBase(object):
         self.on_init()
         self.conf = configparser.ConfigParser()
         self.conf.read(f'{os.path.dirname(os.path.dirname(__file__))}/conf/{svr_name}_svr.ini')
-        print(f'{os.path.dirname(os.path.dirname(__file__))}/conf/{svr_name}_svr.ini')
 
     @final
     def start(self):
