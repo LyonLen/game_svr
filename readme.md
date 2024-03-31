@@ -15,6 +15,7 @@
 | c: 1000 n: 1000 * 1000 s: 1s | 29.0   0.4               | 895.73 qps   | 20.0   0.3               | 日志更少了，qps损耗更高。<br/>qps有10%损耗, 已达到极限 |
 
 ## c: 500 n: 500 * 1000 s: 1s 单事务耗时，较为少数超过10ms的请求
+```
 2024-04-01 00:45:39.519|pid(20153)|conn_0|MainThread|conn_svr.py:87|INFO|ConnMsgHandler.COUNT: 500 473.03 qps
 2024-04-01 00:45:49.520|pid(20153)|conn_0|MainThread|conn_svr.py:87|INFO|ConnMsgHandler.COUNT: 500 491.67 qps
 2024-04-01 00:45:59.523|pid(20153)|conn_0|MainThread|conn_svr.py:87|INFO|ConnMsgHandler.COUNT: 500 499.55 qps
@@ -28,8 +29,10 @@
 2024-04-01 00:46:59.553|pid(20153)|conn_0|MainThread|conn_svr.py:87|INFO|ConnMsgHandler.COUNT: 500 499.44 qps
 2024-04-01 00:47:09.556|pid(20153)|conn_0|MainThread|conn_svr.py:87|INFO|ConnMsgHandler.COUNT: 500 499.47 qps
 2024-04-01 00:47:10.464|pid(20153)|conn_0|MainThread|conn_svr.py:97|WARNING|_test_run_transaction cost 51 ms
+```
 
 ## c: 1000 n: 1000 * 1000 s: 1s 单事务耗时，出现了大量的超过10ms的请求，从另一个角度解释了前后端对比，qps损耗的比例确实是较为真实的
+```
 2024-04-01 00:45:30.157|pid(20153)|conn_0|MainThread|conn_svr.py:97|WARNING|_test_run_transaction cost 61 ms
 2024-04-01 00:45:30.178|pid(20153)|conn_0|MainThread|conn_svr.py:97|WARNING|_test_run_transaction cost 21 ms
 2024-04-01 00:45:30.179|pid(20153)|conn_0|MainThread|conn_svr.py:97|WARNING|_test_run_transaction cost 22 ms
@@ -46,6 +49,7 @@
 2024-04-01 00:45:30.218|pid(20153)|conn_0|MainThread|conn_svr.py:97|WARNING|_test_run_transaction cost 14 ms
 2024-04-01 00:45:30.218|pid(20153)|conn_0|MainThread|conn_svr.py:97|WARNING|_test_run_transaction cost 14 ms
 2024-04-01 00:45:30.218|pid(20153)|conn_0|MainThread|conn_svr.py:97|WARNING|_test_run_transaction cost 14 ms
+```
 
 # 结论
 从空架子的测试结果来看，建议还是保持在500qps上下的压力。
