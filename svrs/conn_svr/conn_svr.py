@@ -1,4 +1,5 @@
 import asyncio
+import sys
 
 from tornado.httpserver import HTTPServer
 from tornado.netutil import bind_sockets
@@ -28,16 +29,22 @@ class ConnSvr(SvrBase):
         # tornado.process.fork_processes(1)
 
         async def post_fork_main():
-            sockets = bind_sockets(8888, reuse_port=True)
-            self.web_svr = HTTPServer(
-                Application(
-                    [("/trans", ConnMsgHandler)],
-                    websocket_ping_interval=50,  # 每50秒，向客户端发送一次ping包
-                    websocket_ping_timeout=180  # 4次服务器ping不回pong，则主动断开长链接
+            sockets = []
+            try:
+                sockets = bind_sockets(int(sys.argv[1]), address=sys.argv[2], reuse_port=True)
+                self.web_svr = HTTPServer(
+                    Application(
+                        [("/trans", ConnMsgHandler)],
+                        websocket_ping_interval=50,  # 每50秒，向客户端发送一次ping包
+                        websocket_ping_timeout=180  # 4次服务器ping不回pong，则主动断开长链接
+                    )
                 )
-            )
-            self.web_svr.add_sockets(sockets)
-            await self.web_svr_event.wait()
+                self.web_svr.add_sockets(sockets)
+                await self.web_svr_event.wait()
+            finally:
+                for socket in sockets:
+                    socket.close()
+                self.loop.stop()
 
         self.loop.create_task(post_fork_main())
 
@@ -68,4 +75,5 @@ class ConnMsgHandler(WebSocketHandler):
 
 
 if __name__ == "__main__":
+    print(sys.argv)
     ConnSvr(svr_name="conn").start()
