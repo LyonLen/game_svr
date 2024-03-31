@@ -1,4 +1,6 @@
 import asyncio
+import configparser
+import os.path
 import signal
 import time
 from typing import final
@@ -15,6 +17,9 @@ class SvrBase(object):
         self.loop = asyncio.new_event_loop()
         self._stopping = False
         self.on_init()
+        self.conf = configparser.ConfigParser()
+        self.conf.read(f'{os.path.dirname(os.path.dirname(__file__))}/conf/{svr_name}_svr.ini')
+        print(f'{os.path.dirname(os.path.dirname(__file__))}/conf/{svr_name}_svr.ini')
 
     @final
     def start(self):

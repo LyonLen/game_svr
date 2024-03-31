@@ -1,10 +1,7 @@
 import asyncio
-import logging
 
-import tornado
 from tornado.httpserver import HTTPServer
 from tornado.netutil import bind_sockets
-from tornado.process import task_id
 from tornado.web import Application
 from tornado.websocket import WebSocketHandler, WebSocketClosedError
 
@@ -20,7 +17,8 @@ class ConnSvr(SvrBase):
 
     def on_start(self):
         global logger
-        logger = init_logger(self.get_instance_name(), "./logs/conn_svr/", log_level=logging.DEBUG)
+        print(dict(self.conf))
+        logger = init_logger(self.get_instance_name(), **dict(self.conf["LOG"]))
 
         # TODO 数据库加载，有些标志是放在redis，要来判断版本号，开服状态
 
@@ -70,4 +68,4 @@ class ConnMsgHandler(WebSocketHandler):
 
 
 if __name__ == "__main__":
-    ConnSvr().start()
+    ConnSvr(svr_name="conn").start()
