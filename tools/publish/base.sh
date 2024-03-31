@@ -3,8 +3,7 @@ PROJ_NAME="game_svr"
 # 当前版本
 VERSION="v0_0_1"
 # 代码路径
-VHOME="/mnt/k/PycharmProjects"
-TRUNK_PATH="$VHOME/$PROJ_NAME"
+TRUNK_PATH="$HOME/$PROJ_NAME"
 # 运行路径
 RUN_PATH="/data/app/$PROJ_NAME"
 # protoc路径
