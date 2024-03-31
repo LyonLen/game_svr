@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message Test
+{
+    uint32 a = 1;
+}

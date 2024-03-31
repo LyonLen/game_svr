@@ -26,7 +26,8 @@ class ConnSvr(SvrBase):
 
         # TODO 配置加载，一般conn_svr只有加载那种服务器列表、黑名单、白名单
 
-        tornado.process.fork_processes(2)
+        # 暂时不采用多进程启动
+        # tornado.process.fork_processes(1)
 
         async def post_fork_main():
             sockets = bind_sockets(8888, reuse_port=True)

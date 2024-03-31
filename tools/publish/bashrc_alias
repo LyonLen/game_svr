@@ -1,0 +1,5 @@
+alias cdtrunk='cd $HOME/game_svr/'
+alias cdpublish='cd $HOME/game_svr/tools/publish/'
+alias cdrun='cd /data/app/game_svr/'
+alias tcurlog='tail -f /data/apps/game_svr/logs/$1_svr_.*.log'
+alias vcurlog='_vimfunc(){ vim /data/app/game_svr/logs/$1_svr_$2.log; }; _vimfunc'
