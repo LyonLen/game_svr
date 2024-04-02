@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-SVR_NAME="conn_svr"
+SVR_NAME="$1_svr"
 
 echo "$SVR_NAME starting..."
 # TODO 临时测试

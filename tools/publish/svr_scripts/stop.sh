@@ -2,7 +2,7 @@
 
 cd ../../../
 
-SVR_NAME="conn_svr"
+SVR_NAME="$1_svr"
 PID_FILE_DIR=./script/pids/
 
 kill_and_wait_for_process_exit() {
