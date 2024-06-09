@@ -1,7 +1,7 @@
 import math
 import unittest
 
-from src.effect_val import EffectVal
+from src.effect.effect_val import EffectVal
 
 
 class TestEffectVal(unittest.TestCase):
