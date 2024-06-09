@@ -1,0 +1,15 @@
+{
+  "effects": [
+    {
+      "effect_id": 1,
+      "effect_limit": 200
+    },
+    {
+      "effect_id": 2,
+      "effect_limit": 400
+    },
+    {
+      "effect_id": 3
+    }
+  ]
+}
