@@ -1,0 +1,1 @@
+sudo chown -R lyon /data/app/game_svr

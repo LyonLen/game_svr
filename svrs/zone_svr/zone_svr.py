@@ -1,6 +1,7 @@
 import asyncio
 import sys
 import socket
+import time
 
 from tornado.httpserver import HTTPServer
 from tornado.netutil import bind_sockets
@@ -51,10 +52,20 @@ class ZoneSvr(SvrBase):
 
 class ZoneMsgHandler(WebSocketHandler):
 
+    MSG_NUM = 0
+    LAST_TIME = time.time()
+
     async def open(self):
         logger.debug("ws connection opened")
 
     async def on_message(self, message):
+        now_time = time.time()
+        if now_time - ZoneMsgHandler.LAST_TIME > 10:
+            logger.info(f"QPS: {ZoneMsgHandler.MSG_NUM / (now_time - ZoneMsgHandler.LAST_TIME):.2f}")
+            ZoneMsgHandler.LAST_TIME = now_time
+            ZoneMsgHandler.MSG_NUM = 0
+
+        ZoneMsgHandler.MSG_NUM += 1
         logger.debug(f"ws connection got one msg: {message}")
         resp_bytes = await self._test_run_transaction(message)
         try:

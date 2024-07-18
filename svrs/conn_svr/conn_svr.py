@@ -61,7 +61,7 @@ class ConnMsgHandler(WebSocketHandler):
     LAST_REPORT_TIME = time.time()
 
     async def open(self):
-        self.ws_client = await asyncio.ensure_future(websocket_connect("ws://127.0.0.1:9999/trans"))
+        self.ws_client = await asyncio.ensure_future(websocket_connect("ws://127.0.0.1:8005/trans"))
         ConnMsgHandler.COUNT += 1
         logger.debug("ws connection opened")
 

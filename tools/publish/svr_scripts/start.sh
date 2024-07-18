@@ -7,9 +7,9 @@ echo "$SVR_NAME starting..."
 cd ../../../
 
 cpu_num=$(grep -c "model name" /proc/cpuinfo)
-let 'cpu_num /= 2'
+let 'cpu_num /= 4'
 local_ip=0.0.0.0
-port=8000
+port=$2
 
 mkdir -p ./script/pids/
 mkdir -p ./script/logs/
