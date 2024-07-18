@@ -3,11 +3,11 @@ PROJ_NAME="game_svr"
 # 当前版本
 VERSION="v0_0_1"
 # 代码路径
-TRUNK_PATH="$HOME/$PROJ_NAME"
+TRUNK_PATH="/mnt/d/Users/linliang1/PycharmProjects/$PROJ_NAME"
 # 运行路径
 RUN_PATH="/data/app/$PROJ_NAME"
 # protoc路径
-PROTOC="$TRUNK_PATH/tools/publish/ext/bin/protoc"
+PROTOC="$TRUNK_PATH/tools/publish/ext/protoc-26.0-linux/bin/protoc"
 # 环境名称枚举
 ENV_NAMES=("dev" "test" "uat" "release")
 # 执行shell输出绿色
